@@ -4,8 +4,8 @@ import os
 import os.path
 import sys
 
-model='git://no.such.server/Pytorch-UNet'
-dataset='git://no.such.server/blue-mussel-drone-testdata'
+model='--branch standardize https://github.com/ketil-malde/Pytorch-UNet'
+dataset='git://github.com/ketil-malde/blue-mussel-drone-testdata'
 
 class Project:
 
