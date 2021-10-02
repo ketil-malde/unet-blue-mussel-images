@@ -4,52 +4,55 @@ import os
 import os.path
 import sys
 
-model='--branch standardize https://github.com/ketil-malde/Pytorch-UNet'
-dataset='git://github.com/ketil-malde/blue-mussel-drone-testdata'
+model='--branch standardize git@github.com:ketil-malde/Pytorch-UNet'
+dataset='git@github.com:ketil-malde/blue-mussel-drone-testdata'
 
 class Project:
 
-    def __init__(self):
+    def __init__(self, conf):
         self.m = None
         self.d = None
-        self.config = {}
+        self.config = conf
 
     def setup(self):
         '''Get data and model repositories'''
         os.system(f'git clone {model}')
-        self.config['modelpath'] = os.path.basename(model)
-        sys.path.insert(1, self.config['modelpath'])
+        modelpath = os.path.basename(model)
+        sys.path.insert(1, modelpath)
         import Model
-        self.m = Model.Model()
-        sys.path.remove(self.config['modelpath'])
+        self.m = Model.Model(self.config, modelpath)
+        sys.path.remove(modelpath)
 
         os.system(f'git clone {dataset}')
-        self.config['datapath'] = os.path.basename(dataset)
-        sys.path.insert(1, self.config['datapath'])
+        datapath = os.path.basename(dataset)
+        sys.path.insert(1, datapath)
         import Data
-        self.d = Data.Data()
-        sys.path.remove(self.config['datapath'])
+        self.d = Data.Data(self.config, datapath)
+        sys.path.remove(datapath)
 
     def get_data(self):
         '''Download and verify data'''
-        self.d.get(self.config)
-        self.d.validate(self.config)
+        self.d.get()
+        self.d.validate()
 
     def build_model(self):
         '''Build the model and check it'''
-        self.m.build(self.config)
-        self.m.check(self.config)
+        self.m.build()
+        self.m.check()
 
     def train_model(self):
         '''Train the model'''
-        self.m.train(self.config)
+        self.m.train()
 
+config = {
+    # Configuration items here
+    }
 
 if __name__ == '__main__':
-    p = Project()
+    p = Project(config)
     p.setup()
     p.build_model()
     p.get_data()
     p.train_model()
 
-    print(dir(p))
+    print('Training completed')
