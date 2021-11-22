@@ -55,7 +55,5 @@ if __name__ == '__main__':
     p = Project(config)
     p.setup()
     p.build_model()
-    # p.get_data()
+    p.get_data()
     p.train_model()
-
-    print(dir(p))
