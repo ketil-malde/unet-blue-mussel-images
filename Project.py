@@ -4,8 +4,8 @@ import os
 import os.path
 import sys
 
-model='--branch standardize https://github.com/ketil-malde/Pytorch-UNet'
-dataset='git://github.com/ketil-malde/blue-mussel-drone-testdata'
+model='--branch standardize git@github.com:ketil-malde/Pytorch-UNet'
+dataset='git@github.com:ketil-malde/blue-mussel-drone-testdata'
 
 # default configuration
 config = {
@@ -50,6 +50,9 @@ class Project:
         '''Train the model'''
         self.m.train()
 
+config = {
+    # Configuration items here
+    }
 
 if __name__ == '__main__':
     p = Project(config)
