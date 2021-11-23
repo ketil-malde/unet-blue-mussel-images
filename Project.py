@@ -9,7 +9,8 @@ dataset='git@github.com:ketil-malde/blue-mussel-drone-testdata'
 
 # default configuration
 config = {
-    'runtime': '--gpus device=0'  # or just '' for CPU
+    'runtime': '--gpus device=1',  # or just '' for CPU
+    'scale': 0.5 
 }
 
 class Project:
@@ -50,9 +51,12 @@ class Project:
         '''Train the model'''
         self.m.train()
 
-config = {
-    # Configuration items here
-    }
+    def run_model(self):
+        '''Run the model on test data'''
+        weights = 'checkpoints/CP_epoch5.pth'
+        targets = ' '.join([f'test/{f}' for f in os.listdir('test')])
+        self.m.predict(weights, targets)
+
 
 if __name__ == '__main__':
     p = Project(config)
